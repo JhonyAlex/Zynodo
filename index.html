@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diseñador de Flujos IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@xyflow/react/dist/style.css" />
+    <style>
+      /* Additional styles for a better look and feel with React Flow */
+      .react-flow__pane {
+        cursor: grab;
+      }
+      .react-flow__pane:active {
+        cursor: grabbing;
+      }
+      .react-flow__node {
+        cursor: pointer;
+      }
+      .react-flow__handle {
+        opacity: 0;
+      }
+
+      /* Dark theme for React Flow UI components */
+      .react-flow__controls {
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      }
+      .react-flow__controls-button {
+        background-color: #1e293b; /* slate-800 */
+        border-bottom-color: #334155; /* slate-700 */
+      }
+      .react-flow__controls-button:hover {
+        background-color: #334155; /* slate-700 */
+      }
+      .react-flow__controls-button svg {
+        fill: #94a3b8; /* slate-400 */
+      }
+      .react-flow__controls-button:hover svg {
+        fill: #e2e8f0; /* slate-200 */
+      }
+      .react-flow__minimap {
+        background-color: #1e293b; /* slate-800 */
+        border: 1px solid #334155; /* slate-700 */
+        border-radius: 0.5rem;
+      }
+      .react-flow__minimap-mask {
+        fill: rgb(71 85 105 / 0.6); /* slate-600 with opacity */
+      }
+      .react-flow__minimap-node {
+        fill: #38bdf8; /* sky-400 */
+        stroke: none;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.1.1/",
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "@xyflow/react": "https://aistudiocdn.com/@xyflow/react@^12.8.4"
+  }
+}
+</script>
+</head>
+<body class="bg-slate-900">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "name": "Zynodo",
+  "description": "Un prototipo funcional de un diseñador de flujos visual, similar a n8n, diseñado para usuarios no técnicos. Permite arrastrar plantillas a un lienzo para construir flujos de trabajo automatizados.",
+  "requestFramePermissions": []
+}
