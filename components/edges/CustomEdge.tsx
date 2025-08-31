@@ -72,7 +72,7 @@ const CustomEdge = (props: CustomEdgeProps) => {
         >
             <div className={`flex items-center gap-2 transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
                  <button
-                    onClick={handleInsert}
+                    onMouseDown={handleInsert}
                     className="w-6 h-6 bg-sky-500 rounded-full flex items-center justify-center text-white hover:bg-sky-400 transition-all duration-200 shadow-lg transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 focus:ring-sky-500"
                     aria-label="Añadir paso intermedio"
                     title="Añadir paso"

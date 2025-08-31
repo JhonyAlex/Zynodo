@@ -11,7 +11,7 @@ interface EdgeInserterProps {
 
 const EdgeInserter = ({ edge, onInsert, onClose }: EdgeInserterProps) => {
   const [position, setPosition] = useState({ top: -9999, left: -9999 });
-  const [canClose, setCanClose] = useState(false); // NUEVO: Estado para controlar cuándo se puede cerrar
+  const [canClose, setCanClose] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { flowToScreenPosition } = useReactFlow();
 
@@ -43,24 +43,21 @@ const EdgeInserter = ({ edge, onInsert, onClose }: EdgeInserterProps) => {
     }
   }, [sourceNode, targetNode, flowToScreenPosition]);
 
-  // NUEVO: Effect para activar canClose después de un retraso
   useEffect(() => {
     const timer = setTimeout(() => {
       setCanClose(true);
-    }, 100); // Retraso de 100ms para evitar la condición de carrera
+    }, 100); 
     
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // MODIFICADO: Solo cerrar si canClose es true
-      if (canClose && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      if (canClose && wrapperRef.current && !wrapperRef.current.contains(event.target as globalThis.Node)) {
         onClose();
       }
     };
     
-    // MODIFICADO: Solo agregar el listener si canClose es true
     if (canClose) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
