@@ -46,7 +46,10 @@ const EdgeInserter = ({ edge, onInsert, onClose }: EdgeInserterProps) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+      // FIX: Resolved a type collision by explicitly using the DOM's `Node` type (`globalThis.Node`).
+      // The component was incorrectly using React Flow's `Node` type, causing the click detection
+      // logic to fail and instantly close the panel upon opening. This ensures the panel remains open.
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as globalThis.Node)) {
         onClose();
       }
     };

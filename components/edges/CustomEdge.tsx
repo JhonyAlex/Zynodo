@@ -12,20 +12,22 @@ interface CustomEdgeProps extends EdgeProps {
   onInsertClick: (edge: Edge) => void;
 }
 
-const CustomEdge = ({
-  id,
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
-  sourcePosition,
-  targetPosition,
-  style = {},
-  markerEnd,
-  source,
-  target,
-  onInsertClick,
-}: CustomEdgeProps) => {
+const CustomEdge = (props: CustomEdgeProps) => {
+  const {
+    id,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+    style = {},
+    markerEnd,
+    source,
+    target,
+    onInsertClick,
+  } = props;
+
   const { setEdges } = useReactFlow();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -43,7 +45,10 @@ const CustomEdge = ({
   
   const handleInsert = (evt: React.MouseEvent) => {
     evt.stopPropagation();
-    onInsertClick({ id, source, target });
+    // Pass the full edge object by spreading the props, ensuring all data is available
+    // for the insertion logic, which resolves the issue of the inserter panel not appearing.
+    const { onInsertClick: _, ...edgeData } = props;
+    onInsertClick(edgeData);
   };
 
   return (
