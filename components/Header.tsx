@@ -1,16 +1,27 @@
 
+
 import React from 'react';
 
-const HeaderButton = ({ children }: { children: React.ReactNode }) => (
-  <button
-    onClick={() => alert(`Funcionalidad "${children}" no implementada.`)}
-    className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-800 rounded-md hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500"
-  >
-    {children}
-  </button>
-);
+const HeaderButton = ({ children, onClick }: { children: React.ReactNode; onClick?: () => void; }) => {
+  const defaultOnClick = () => alert(`Funcionalidad "${children}" no implementada.`);
+  
+  return (
+    <button
+      onClick={onClick || defaultOnClick}
+      className="px-4 py-2 text-sm font-medium text-slate-300 bg-slate-800 rounded-md hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500"
+    >
+      {children}
+    </button>
+  );
+};
 
 const Header = () => {
+  const handleShare = () => {
+    const slug = 'ejemplo-flujo'; // Placeholder slug
+    const shareUrl = new URL(`/s/${slug}`, window.location.origin).toString();
+    alert(`Enlace para compartir (funcionalidad de guardado no implementada):\n${shareUrl}`);
+  };
+
   return (
     <header className="flex items-center justify-between p-3 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800 z-10">
       <div className="flex items-center gap-2">
@@ -23,7 +34,7 @@ const Header = () => {
       </div>
       <div className="flex items-center gap-3">
         <HeaderButton>Guardar</HeaderButton>
-        <HeaderButton>Compartir</HeaderButton>
+        <HeaderButton onClick={handleShare}>Compartir</HeaderButton>
         <HeaderButton>Ayuda</HeaderButton>
       </div>
     </header>

@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef, useCallback, useMemo } from 'react';
 import {
   ReactFlowProvider,
@@ -25,6 +23,10 @@ import NodeSuggestions from './components/NodeSuggestions';
 import CustomEdge from './components/edges/CustomEdge';
 import EdgeInserter from './components/EdgeInserter';
 
+// FIX: Cast `import.meta` to `any` to access `env` without requiring Vite client types.
+// This resolves errors when the type definitions are not available in the environment.
+const API_URL = (import.meta as any).env?.VITE_API_URL || new URL('/api', window.location.origin).href;
+const WS_URL  = (import.meta as any).env?.VITE_WS_URL  || window.location.origin.replace(/^http/,'ws');
 
 let instanceCounter = 0;
 const getNewInstanceId = () => `instance_${instanceCounter++}`;
