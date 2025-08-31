@@ -11,13 +11,12 @@ interface EdgeInserterProps {
 
 const EdgeInserter = ({ edge, onInsert, onClose }: EdgeInserterProps) => {
   const [position, setPosition] = useState({ top: -9999, left: -9999 });
+  const [canClose, setCanClose] = useState(false); // NUEVO: Estado para controlar cuándo se puede cerrar
   const wrapperRef = useRef<HTMLDivElement>(null);
   const { flowToScreenPosition } = useReactFlow();
 
   const { sourceNode, targetNode } = useStore(
     useCallback(
-      // FIX: Cast state to `any` to access the internal `nodeInternals` property, which is not exposed on the `ReactFlowState` type.
-      // FIX: Added optional chaining to prevent a runtime crash if `nodeInternals` is not yet available in the store.
       (s: any) => {
         const source = s.nodeInternals?.get(edge.source);
         const target = s.nodeInternals?.get(edge.target);
@@ -44,20 +43,31 @@ const EdgeInserter = ({ edge, onInsert, onClose }: EdgeInserterProps) => {
     }
   }, [sourceNode, targetNode, flowToScreenPosition]);
 
+  // NUEVO: Effect para activar canClose después de un retraso
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCanClose(true);
+    }, 100); // Retraso de 100ms para evitar la condición de carrera
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // FIX: Resolved a type collision by explicitly using the DOM's `Node` type (`globalThis.Node`).
-      // The component was incorrectly using React Flow's `Node` type, causing the click detection
-      // logic to fail and instantly close the panel upon opening. This ensures the panel remains open.
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as globalThis.Node)) {
+      // MODIFICADO: Solo cerrar si canClose es true
+      if (canClose && wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [onClose]);
+    
+    // MODIFICADO: Solo agregar el listener si canClose es true
+    if (canClose) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [onClose, canClose]);
 
   const handleSelect = (suggestion: SuggestedNode) => {
     onInsert(edge, suggestion);
